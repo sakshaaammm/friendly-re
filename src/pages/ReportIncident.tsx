@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 interface Location {
   latitude: number | null;
@@ -25,6 +26,7 @@ interface ReportData {
 
 const ReportIncident = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loadingLocation, setLoadingLocation] = useState(false);
   
@@ -121,33 +123,54 @@ const ReportIncident = () => {
       return;
     }
 
-    // Simulate API call to submit incident
+    // Create a problem object to save
+    const problemToSave = {
+      id: `INC-${Date.now().toString().slice(-6)}`,
+      title: reportData.title,
+      description: reportData.description,
+      location: reportData.location.address,
+      date: reportData.date,
+      status: "pending",
+      reporter: "John Citizen", // In a real app, this would be the logged-in user
+      priority: "medium", // Default priority
+      imageUrl: reportData.imagePreview || "/placeholder.svg",
+    };
+
+    // Get existing problems from localStorage or initialize empty array
+    const existingProblems = JSON.parse(localStorage.getItem("neighborhood-problems") || "[]");
+    
+    // Add new problem to array
+    const updatedProblems = [...existingProblems, problemToSave];
+    
+    // Save back to localStorage
+    localStorage.setItem("neighborhood-problems", JSON.stringify(updatedProblems));
+    
+    toast({
+      title: "Problem reported",
+      description: "Your neighborhood problem has been successfully reported. A community helper will be assigned soon.",
+    });
+    
+    // Reset form
+    setReportData({
+      title: "",
+      description: "",
+      location: {
+        latitude: null,
+        longitude: null,
+        address: "",
+      },
+      imageFile: null,
+      imagePreview: null,
+      date: new Date().toISOString().split('T')[0],
+      status: "pending",
+    });
+    
+    setLoading(false);
+    
+    // Redirect to user dashboard after successful submission
     setTimeout(() => {
-      // In a real app, you'd send this data to your backend
-      console.log("Submitting neighborhood problem:", reportData);
-      
-      toast({
-        title: "Problem reported",
-        description: "Your neighborhood problem has been successfully reported. A community helper will be assigned soon.",
-      });
-      
-      // Reset form
-      setReportData({
-        title: "",
-        description: "",
-        location: {
-          latitude: null,
-          longitude: null,
-          address: "",
-        },
-        imageFile: null,
-        imagePreview: null,
-        date: new Date().toISOString().split('T')[0],
-        status: "pending",
-      });
-      
-      setLoading(false);
-    }, 1500);
+      navigate("/user-dashboard");
+    }, 2000);
   };
 
   return (

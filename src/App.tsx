@@ -1,7 +1,6 @@
 
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import { ThemeProvider } from "./components/theme-provider";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -36,7 +35,6 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
-        <Footer />
       </div>
     </ThemeProvider>
   );

@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Card, 
   CardContent, 
@@ -20,88 +19,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 
-// Mock data for reported problems
-const mockIncidents = [
-  {
-    id: "INC-001",
-    title: "Broken Streetlight",
-    description: "Streetlight at the corner of Oak and Main has been out for three days. Area is very dark at night.",
-    location: "123 Main Street, Downtown",
-    date: "2023-11-01",
-    status: "pending",
-    reporter: "John Citizen",
-    priority: "high",
-    imageUrl: "/placeholder.svg",
-  },
-  {
-    id: "INC-002",
-    title: "Large Pothole",
-    description: "Deep pothole in the middle of Park Avenue. Several cars have been damaged.",
-    location: "456 Park Avenue, Westside",
-    date: "2023-11-02",
-    status: "in-progress",
-    reporter: "Sarah Connor",
-    priority: "high",
-    imageUrl: "/placeholder.svg",
-  },
-  {
-    id: "INC-003",
-    title: "Fallen Tree Branch",
-    description: "Large branch blocking sidewalk after the storm. Pedestrians have to walk on the road.",
-    location: "Highway 101, North Exit",
-    date: "2023-11-03",
-    status: "completed",
-    reporter: "Michael Johnson",
-    priority: "medium",
-    imageUrl: "/placeholder.svg",
-  },
-  {
-    id: "INC-004",
-    title: "Graffiti on Park Wall",
-    description: "Offensive graffiti on the wall of Central Park. Needs to be cleaned.",
-    location: "Central Park, East Entrance",
-    date: "2023-11-04",
-    status: "pending",
-    reporter: "Emily Brown",
-    priority: "medium",
-    imageUrl: "/placeholder.svg",
-  },
-  {
-    id: "INC-005",
-    title: "Flooding on Main Street",
-    description: "After heavy rain, there's significant flooding on Main Street. Drainage seems to be blocked.",
-    location: "Riverside District",
-    date: "2023-11-05",
-    status: "in-progress",
-    reporter: "James Wilson",
-    priority: "high",
-    imageUrl: "/placeholder.svg",
-  },
-  {
-    id: "INC-006",
-    title: "Damaged Playground Equipment",
-    description: "The slide in Community Park has a large crack and is unsafe for children.",
-    location: "Community Park",
-    date: "2023-11-06",
-    status: "completed",
-    reporter: "Linda Martinez",
-    priority: "medium",
-    imageUrl: "/placeholder.svg",
-  },
-  {
-    id: "INC-007",
-    title: "Abandoned Vehicle",
-    description: "Car has been parked for over two weeks and appears to be abandoned.",
-    location: "789 Business Boulevard",
-    date: "2023-11-07",
-    status: "in-progress",
-    reporter: "Robert Taylor",
-    priority: "high",
-    imageUrl: "/placeholder.svg",
-  },
-];
-
-// Mock data for vouchers
 const mockVouchers = [
   {
     id: "VCH-001",
@@ -195,6 +112,31 @@ const mockVouchers = [
   },
 ];
 
+const defaultIncidents = [
+  {
+    id: "INC-001",
+    title: "Broken Streetlight",
+    description: "Streetlight at the corner of Oak and Main has been out for three days. Area is very dark at night.",
+    location: "123 Main Street, Downtown",
+    date: "2023-11-01",
+    status: "pending",
+    reporter: "John Citizen",
+    priority: "high",
+    imageUrl: "/placeholder.svg",
+  },
+  {
+    id: "INC-002",
+    title: "Large Pothole",
+    description: "Deep pothole in the middle of Park Avenue. Several cars have been damaged.",
+    location: "456 Park Avenue, Westside",
+    date: "2023-11-02",
+    status: "in-progress",
+    reporter: "Sarah Connor",
+    priority: "high",
+    imageUrl: "/placeholder.svg",
+  }
+];
+
 interface Incident {
   id: string;
   title: string;
@@ -219,7 +161,7 @@ interface Voucher {
 
 const AuthorityDashboard = () => {
   const { toast } = useToast();
-  const [incidents, setIncidents] = useState<Incident[]>(mockIncidents);
+  const [incidents, setIncidents] = useState<Incident[]>([]);
   const [vouchers, setVouchers] = useState<Voucher[]>(mockVouchers);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -228,10 +170,8 @@ const AuthorityDashboard = () => {
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
   const [mainTab, setMainTab] = useState("problems");
   
-  // For voucher issuance
   const [selectedResidentId, setSelectedResidentId] = useState("");
 
-  // Mock residents data
   const residents = [
     { id: "USR-001", name: "John Citizen", email: "john@example.com" },
     { id: "USR-002", name: "Sarah Connor", email: "sarah@example.com" },
@@ -240,7 +180,17 @@ const AuthorityDashboard = () => {
     { id: "USR-005", name: "James Wilson", email: "james@example.com" },
   ];
 
-  // Filter incidents based on search term and filters
+  useEffect(() => {
+    const storedProblems = localStorage.getItem("neighborhood-problems");
+    if (storedProblems) {
+      const parsedProblems = JSON.parse(storedProblems);
+      setIncidents(parsedProblems);
+    } else {
+      setIncidents(defaultIncidents);
+      localStorage.setItem("neighborhood-problems", JSON.stringify(defaultIncidents));
+    }
+  }, []);
+
   const filteredIncidents = incidents.filter((incident) => {
     const matchesSearch = 
       incident.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -254,7 +204,6 @@ const AuthorityDashboard = () => {
     return matchesSearch && matchesStatus && matchesPriority;
   });
 
-  // Filter vouchers based on search term
   const filteredVouchers = vouchers.filter((voucher) => 
     voucher.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
     voucher.discount.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -262,23 +211,24 @@ const AuthorityDashboard = () => {
   );
 
   const updateIncidentStatus = (id: string, newStatus: string) => {
-    setIncidents(incidents.map(incident => 
+    const updatedIncidents = incidents.map(incident => 
       incident.id === id ? { ...incident, status: newStatus } : incident
-    ));
+    );
+    
+    setIncidents(updatedIncidents);
+    localStorage.setItem("neighborhood-problems", JSON.stringify(updatedIncidents));
     
     toast({
       title: "Status Updated",
       description: `Problem ${id} status changed to ${newStatus}.`,
     });
     
-    // Update selected incident if it's currently selected
     if (selectedIncident && selectedIncident.id === id) {
       setSelectedIncident({ ...selectedIncident, status: newStatus });
     }
   };
 
   const issueVoucher = (voucherId: string, residentId: string) => {
-    // Find the selected voucher and resident
     const voucher = vouchers.find(v => v.id === voucherId);
     const resident = residents.find(r => r.id === residentId);
     
@@ -300,8 +250,7 @@ const AuthorityDashboard = () => {
       return;
     }
     
-    // Update the voucher count
-    setVouchers(vouchers.map(v => 
+    const updatedVouchers = vouchers.map(v => 
       v.id === voucherId 
         ? { 
             ...v, 
@@ -309,9 +258,26 @@ const AuthorityDashboard = () => {
             issuedCount: v.issuedCount + 1
           } 
         : v
-    ));
+    );
     
-    // Update selected voucher if it's currently selected
+    setVouchers(updatedVouchers);
+    
+    const issuedVoucher = {
+      voucherId: voucher.id,
+      userId: residentId,
+      userName: resident.name,
+      company: voucher.company,
+      discount: voucher.discount,
+      code: voucher.code,
+      issuedDate: new Date().toISOString(),
+      expiryDate: voucher.expiryDate,
+      redeemed: false,
+    };
+    
+    const existingVouchers = JSON.parse(localStorage.getItem("issued-vouchers") || "[]");
+    const updatedIssuedVouchers = [...existingVouchers, issuedVoucher];
+    localStorage.setItem("issued-vouchers", JSON.stringify(updatedIssuedVouchers));
+    
     if (selectedVoucher && selectedVoucher.id === voucherId) {
       setSelectedVoucher({ 
         ...selectedVoucher, 
