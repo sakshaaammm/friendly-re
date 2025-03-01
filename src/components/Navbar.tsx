@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { useTheme } from "./theme-provider";
 import { Button } from "./ui/button";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, User } from "lucide-react";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
@@ -30,7 +30,7 @@ const Navbar = () => {
                 <path d="M12 9v4" />
                 <path d="M12 17h.01" />
               </svg>
-              Hero Tracker
+              Neighborhood Helper
             </Link>
           </div>
           <div className="hidden md:block">
@@ -46,6 +46,12 @@ const Navbar = () => {
                 className="px-3 py-2 rounded-md text-sm font-medium text-foreground hover:text-primary"
               >
                 Dashboard
+              </Link>
+              <Link
+                to="/report-incident"
+                className="px-3 py-2 rounded-md text-sm font-medium text-foreground hover:text-primary"
+              >
+                Report Problem
               </Link>
               <Link
                 to="/services"
@@ -65,6 +71,12 @@ const Navbar = () => {
               >
                 Contact
               </Link>
+              <Link to="/login">
+                <Button variant="outline" size="sm" className="ml-2">
+                  <User className="h-4 w-4 mr-2" />
+                  Login
+                </Button>
+              </Link>
               <Button
                 variant="ghost"
                 size="icon"
@@ -82,6 +94,11 @@ const Navbar = () => {
             </div>
           </div>
           <div className="md:hidden flex items-center">
+            <Link to="/login">
+              <Button variant="outline" size="sm" className="mr-2">
+                <User className="h-4 w-4" />
+              </Button>
+            </Link>
             <Button
               variant="ghost"
               size="icon"

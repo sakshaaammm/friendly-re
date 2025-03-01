@@ -13,6 +13,7 @@ import HeroProfile from "./pages/HeroProfile";
 import ReportIncident from "./pages/ReportIncident";
 import AuthorityDashboard from "./pages/AuthorityDashboard";
 import UserDashboard from "./pages/UserDashboard";
+import Login from "./pages/Login";
 import "./App.css";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/user-dashboard" element={<UserDashboard />} />
             <Route path="/authority-dashboard" element={<AuthorityDashboard />} />
             <Route path="/report-incident" element={<ReportIncident />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
