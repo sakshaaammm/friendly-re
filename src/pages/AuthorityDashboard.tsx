@@ -20,12 +20,12 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 
-// Mock data for reported incidents
+// Mock data for reported problems
 const mockIncidents = [
   {
     id: "INC-001",
-    title: "Robbery at Central Bank",
-    description: "Armed individuals spotted entering the bank. Possible hostage situation.",
+    title: "Broken Streetlight",
+    description: "Streetlight at the corner of Oak and Main has been out for three days. Area is very dark at night.",
     location: "123 Main Street, Downtown",
     date: "2023-11-01",
     status: "pending",
@@ -35,8 +35,8 @@ const mockIncidents = [
   },
   {
     id: "INC-002",
-    title: "Building Fire",
-    description: "A fire has broken out in an apartment building. Several people may be trapped.",
+    title: "Large Pothole",
+    description: "Deep pothole in the middle of Park Avenue. Several cars have been damaged.",
     location: "456 Park Avenue, Westside",
     date: "2023-11-02",
     status: "in-progress",
@@ -46,8 +46,8 @@ const mockIncidents = [
   },
   {
     id: "INC-003",
-    title: "Traffic Accident",
-    description: "Multiple car collision on the highway. Injuries reported.",
+    title: "Fallen Tree Branch",
+    description: "Large branch blocking sidewalk after the storm. Pedestrians have to walk on the road.",
     location: "Highway 101, North Exit",
     date: "2023-11-03",
     status: "completed",
@@ -57,9 +57,9 @@ const mockIncidents = [
   },
   {
     id: "INC-004",
-    title: "Suspicious Package",
-    description: "Unattended package reported at the train station.",
-    location: "Central Station, Platform 3",
+    title: "Graffiti on Park Wall",
+    description: "Offensive graffiti on the wall of Central Park. Needs to be cleaned.",
+    location: "Central Park, East Entrance",
     date: "2023-11-04",
     status: "pending",
     reporter: "Emily Brown",
@@ -68,8 +68,8 @@ const mockIncidents = [
   },
   {
     id: "INC-005",
-    title: "Flooding",
-    description: "Several streets flooded after heavy rain. Residents need assistance.",
+    title: "Flooding on Main Street",
+    description: "After heavy rain, there's significant flooding on Main Street. Drainage seems to be blocked.",
     location: "Riverside District",
     date: "2023-11-05",
     status: "in-progress",
@@ -79,9 +79,9 @@ const mockIncidents = [
   },
   {
     id: "INC-006",
-    title: "Power Outage",
-    description: "Entire neighborhood without power after storm.",
-    location: "Eastside Residential Area",
+    title: "Damaged Playground Equipment",
+    description: "The slide in Community Park has a large crack and is unsafe for children.",
+    location: "Community Park",
     date: "2023-11-06",
     status: "completed",
     reporter: "Linda Martinez",
@@ -90,8 +90,8 @@ const mockIncidents = [
   },
   {
     id: "INC-007",
-    title: "Gas Leak",
-    description: "Strong smell of gas reported in commercial building.",
+    title: "Abandoned Vehicle",
+    description: "Car has been parked for over two weeks and appears to be abandoned.",
     location: "789 Business Boulevard",
     date: "2023-11-07",
     status: "in-progress",
@@ -142,7 +142,7 @@ const AuthorityDashboard = () => {
     
     toast({
       title: "Status Updated",
-      description: `Incident ${id} status changed to ${newStatus}.`,
+      description: `Problem ${id} status changed to ${newStatus}.`,
     });
     
     // Update selected incident if it's currently selected
@@ -179,13 +179,13 @@ const AuthorityDashboard = () => {
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <h1 className="text-4xl font-bold mb-2">Authority Dashboard</h1>
-      <p className="text-muted-foreground mb-8">Manage and respond to reported incidents</p>
+      <h1 className="text-4xl font-bold mb-2">Community Authority Dashboard</h1>
+      <p className="text-muted-foreground mb-8">Manage and respond to reported neighborhood problems</p>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-2xl">Total Incidents</CardTitle>
+            <CardTitle className="text-2xl">Total Problems</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-bold">{incidents.length}</p>
@@ -215,8 +215,8 @@ const AuthorityDashboard = () => {
         <div className="lg:col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle>Incident Filters</CardTitle>
-              <CardDescription>Filter incidents by status, priority or search term</CardDescription>
+              <CardTitle>Problem Filters</CardTitle>
+              <CardDescription>Filter neighborhood problems by status, priority or search term</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -262,9 +262,9 @@ const AuthorityDashboard = () => {
           
           <Card className="mt-6">
             <CardHeader>
-              <CardTitle>Incident List</CardTitle>
+              <CardTitle>Problem List</CardTitle>
               <CardDescription>
-                {filteredIncidents.length} incidents found
+                {filteredIncidents.length} problems found
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -293,7 +293,7 @@ const AuthorityDashboard = () => {
                   ))
                 ) : (
                   <div className="text-center py-6 text-muted-foreground">
-                    No incidents match your search criteria
+                    No problems match your search criteria
                   </div>
                 )}
               </div>
@@ -308,7 +308,7 @@ const AuthorityDashboard = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle>{selectedIncident.title}</CardTitle>
-                    <CardDescription>Incident ID: {selectedIncident.id}</CardDescription>
+                    <CardDescription>Problem ID: {selectedIncident.id}</CardDescription>
                   </div>
                   <div className="flex gap-2">
                     {getStatusBadge(selectedIncident.status)}
@@ -358,7 +358,7 @@ const AuthorityDashboard = () => {
                     </div>
                     
                     <div>
-                      <h3 className="font-semibold mb-2">Incident Photo</h3>
+                      <h3 className="font-semibold mb-2">Problem Photo</h3>
                       <div className="border rounded-lg overflow-hidden">
                         <img
                           src={selectedIncident.imageUrl}
@@ -395,20 +395,20 @@ const AuthorityDashboard = () => {
                     </div>
                     
                     <div>
-                      <h3 className="font-semibold mb-2">Assign Hero</h3>
+                      <h3 className="font-semibold mb-2">Assign Community Helper</h3>
                       <Select>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a hero to respond" />
+                          <SelectValue placeholder="Select a helper to respond" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="hero1">Captain Shield</SelectItem>
-                          <SelectItem value="hero2">Night Watcher</SelectItem>
-                          <SelectItem value="hero3">Wind Rider</SelectItem>
-                          <SelectItem value="hero4">Thunder Strike</SelectItem>
-                          <SelectItem value="hero5">Shadow Walker</SelectItem>
+                          <SelectItem value="helper1">John Smith (Local Repair)</SelectItem>
+                          <SelectItem value="helper2">Mary Johnson (Cleanup Crew)</SelectItem>
+                          <SelectItem value="helper3">Robert Davis (Electrician)</SelectItem>
+                          <SelectItem value="helper4">Lisa Wilson (Public Works)</SelectItem>
+                          <SelectItem value="helper5">David Brown (Parks Dept.)</SelectItem>
                         </SelectContent>
                       </Select>
-                      <Button className="mt-2">Assign Hero</Button>
+                      <Button className="mt-2">Assign Helper</Button>
                     </div>
                     
                     <div className="pt-2">
@@ -416,7 +416,7 @@ const AuthorityDashboard = () => {
                         Download Report
                       </Button>
                       <Button variant="destructive">
-                        Archive Incident
+                        Archive Problem
                       </Button>
                     </div>
                   </TabsContent>
@@ -426,9 +426,9 @@ const AuthorityDashboard = () => {
           ) : (
             <div className="flex items-center justify-center h-full min-h-[400px] border rounded-lg bg-muted/40">
               <div className="text-center p-8">
-                <h3 className="text-xl font-medium mb-2">No Incident Selected</h3>
+                <h3 className="text-xl font-medium mb-2">No Problem Selected</h3>
                 <p className="text-muted-foreground mb-4">
-                  Select an incident from the list to view its details and take action.
+                  Select a problem from the list to view its details and take action.
                 </p>
               </div>
             </div>

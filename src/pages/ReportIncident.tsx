@@ -69,7 +69,7 @@ const ReportIncident = () => {
           const { latitude, longitude } = position.coords;
           
           // Simulate getting address from coordinates (in a real app, you'd use a geocoding service)
-          const mockAddress = `${latitude.toFixed(4)}, ${longitude.toFixed(4)} (City Center)`;
+          const mockAddress = `${latitude.toFixed(4)}, ${longitude.toFixed(4)} (Neighborhood Location)`;
           
           setReportData((prev) => ({
             ...prev,
@@ -124,11 +124,11 @@ const ReportIncident = () => {
     // Simulate API call to submit incident
     setTimeout(() => {
       // In a real app, you'd send this data to your backend
-      console.log("Submitting incident:", reportData);
+      console.log("Submitting neighborhood problem:", reportData);
       
       toast({
-        title: "Incident reported",
-        description: "Your incident has been successfully reported. The authorities have been notified.",
+        title: "Problem reported",
+        description: "Your neighborhood problem has been successfully reported. A community helper will be assigned soon.",
       });
       
       // Reset form
@@ -152,13 +152,13 @@ const ReportIncident = () => {
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <h1 className="text-4xl font-bold mb-8 text-center">Report an Incident</h1>
+      <h1 className="text-4xl font-bold mb-8 text-center">Report a Neighborhood Problem</h1>
       
       <Card className="max-w-3xl mx-auto">
         <CardHeader>
-          <CardTitle>Incident Details</CardTitle>
+          <CardTitle>Problem Details</CardTitle>
           <CardDescription>
-            Fill in the details of the incident you're reporting. The more information you provide, the better our heroes can respond.
+            Fill in the details of the neighborhood issue you're reporting. The more information you provide, the better our community helpers can respond.
           </CardDescription>
         </CardHeader>
         
@@ -166,12 +166,12 @@ const ReportIncident = () => {
           <CardContent className="space-y-6">
             <div className="space-y-2">
               <label htmlFor="title" className="font-medium">
-                Incident Title *
+                Problem Title *
               </label>
               <Input
                 id="title"
                 name="title"
-                placeholder="Brief description of the incident"
+                placeholder="Brief description of the problem (e.g., Broken streetlight, Pothole, etc.)"
                 value={reportData.title}
                 onChange={handleChange}
                 required
@@ -185,7 +185,7 @@ const ReportIncident = () => {
               <Textarea
                 id="description"
                 name="description"
-                placeholder="Provide as much detail as possible about what happened"
+                placeholder="Provide as much detail as possible about the problem"
                 value={reportData.description}
                 onChange={handleChange}
                 rows={4}
@@ -257,7 +257,7 @@ const ReportIncident = () => {
             
             <div className="space-y-2">
               <label htmlFor="date" className="font-medium">
-                Date of Incident *
+                Date Problem Noticed *
               </label>
               <Input
                 id="date"
@@ -273,14 +273,14 @@ const ReportIncident = () => {
             <div className="pt-2">
               <Badge>Status: Pending Review</Badge>
               <p className="mt-2 text-sm text-muted-foreground">
-                Your report will be reviewed by the authorities upon submission.
+                Your report will be reviewed by community authorities upon submission.
               </p>
             </div>
           </CardContent>
           
           <CardFooter>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Submitting..." : "Submit Incident Report"}
+              {loading ? "Submitting..." : "Submit Problem Report"}
             </Button>
           </CardFooter>
         </form>

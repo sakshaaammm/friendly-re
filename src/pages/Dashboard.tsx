@@ -20,6 +20,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 import heroes from "@/data/heroes";
 
 export default function Dashboard() {
@@ -55,16 +56,16 @@ export default function Dashboard() {
   return (
     <div className="container py-10">
       <div className="mb-10">
-        <h1 className="text-3xl font-bold mb-2">Hero Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-2">Neighborhood Problem Solver</h1>
         <p className="text-muted-foreground">
-          Track and monitor heroes in your neighborhood
+          Find neighborhood heroes who can help solve problems in your community
         </p>
       </div>
 
       <div className="grid gap-6 mb-8">
         <Card>
           <CardHeader>
-            <CardTitle>Hero Finder</CardTitle>
+            <CardTitle>Find Problem Solvers</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
@@ -105,8 +106,8 @@ export default function Dashboard() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Status</SelectItem>
-                      <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="inactive">Inactive</SelectItem>
+                      <SelectItem value="active">Currently Available</SelectItem>
+                      <SelectItem value="inactive">Unavailable</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -124,13 +125,18 @@ export default function Dashboard() {
               </div>
             </div>
           </CardContent>
+          <CardFooter>
+            <Button asChild className="w-full">
+              <Link to="/report-incident">Report a Neighborhood Problem</Link>
+            </Button>
+          </CardFooter>
         </Card>
       </div>
 
       <Tabs defaultValue="grid" className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <div className="text-sm text-muted-foreground">
-            Showing {filteredHeroes.length} of {heroes.length} heroes
+            Showing {filteredHeroes.length} of {heroes.length} problem solvers
           </div>
           <TabsList>
             <TabsTrigger value="grid">Grid</TabsTrigger>
@@ -168,7 +174,7 @@ export default function Dashboard() {
                       variant={hero.isActive ? "default" : "secondary"}
                       className="ml-2"
                     >
-                      {hero.isActive ? "Active" : "Inactive"}
+                      {hero.isActive ? "Available" : "Unavailable"}
                     </Badge>
                   </div>
                 </CardHeader>
@@ -184,7 +190,7 @@ export default function Dashboard() {
                       <span className="font-medium">{hero.responseTime}m</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Rescues</span>
+                      <span>Problems Solved</span>
                       <span className="font-medium">{hero.rescues}</span>
                     </div>
                   </div>
@@ -206,7 +212,7 @@ export default function Dashboard() {
             {filteredHeroes.length === 0 && (
               <div className="col-span-full text-center py-10">
                 <p className="text-muted-foreground">
-                  No heroes match your search criteria. Try adjusting your filters.
+                  No problem solvers match your search criteria. Try adjusting your filters.
                 </p>
               </div>
             )}
@@ -236,7 +242,7 @@ export default function Dashboard() {
                         Response Time
                       </th>
                       <th className="h-12 px-4 text-left align-middle font-medium">
-                        Rescues
+                        Problems Solved
                       </th>
                       <th className="h-12 px-4 text-left align-middle font-medium">
                         Last Active
@@ -264,7 +270,7 @@ export default function Dashboard() {
                           <Badge
                             variant={hero.isActive ? "default" : "secondary"}
                           >
-                            {hero.isActive ? "Active" : "Inactive"}
+                            {hero.isActive ? "Available" : "Unavailable"}
                           </Badge>
                         </td>
                         <td className="p-4 align-middle">{hero.rating}/5</td>
@@ -282,7 +288,7 @@ export default function Dashboard() {
                 {filteredHeroes.length === 0 && (
                   <div className="text-center py-10">
                     <p className="text-muted-foreground">
-                      No heroes match your search criteria. Try adjusting your filters.
+                      No problem solvers match your search criteria. Try adjusting your filters.
                     </p>
                   </div>
                 )}
