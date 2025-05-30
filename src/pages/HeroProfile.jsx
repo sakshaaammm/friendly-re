@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
@@ -8,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import heroes, { Hero } from "@/data/heroes";
+import heroes from "@/data/heroes";
 
 export default function HeroProfile() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const [activeTab, setActiveTab] = useState("overview");
   
   // Find the hero by ID

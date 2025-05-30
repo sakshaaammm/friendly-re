@@ -22,7 +22,7 @@ const Login = () => {
     password: "",
   });
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUserChange = (e) => {
     const { name, value } = e.target;
     setUserCredentials((prev) => ({
       ...prev,
@@ -30,7 +30,7 @@ const Login = () => {
     }));
   };
 
-  const handleAuthorityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAuthorityChange = (e) => {
     const { name, value } = e.target;
     setAuthorityCredentials((prev) => ({
       ...prev,
@@ -38,7 +38,7 @@ const Login = () => {
     }));
   };
 
-  const handleUserLogin = (e: React.FormEvent) => {
+  const handleUserLogin = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -54,7 +54,7 @@ const Login = () => {
     }, 1500);
   };
 
-  const handleAuthorityLogin = (e: React.FormEvent) => {
+  const handleAuthorityLogin = (e) => {
     e.preventDefault();
     setIsLoading(true);
 

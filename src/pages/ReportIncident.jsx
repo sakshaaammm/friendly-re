@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -8,29 +7,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 
-interface Location {
-  latitude: number | null;
-  longitude: number | null;
-  address: string;
-}
-
-interface ReportData {
-  title: string;
-  description: string;
-  location: Location;
-  imageFile: File | null;
-  imagePreview: string | null;
-  date: string;
-  status: "pending" | "in-progress" | "completed";
-}
-
 const ReportIncident = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loadingLocation, setLoadingLocation] = useState(false);
   
-  const [reportData, setReportData] = useState<ReportData>({
+  const [reportData, setReportData] = useState({
     title: "",
     description: "",
     location: {
@@ -44,7 +27,7 @@ const ReportIncident = () => {
     status: "pending",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setReportData((prev) => ({
       ...prev,
@@ -52,7 +35,7 @@ const ReportIncident = () => {
     }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setReportData((prev) => ({
@@ -108,7 +91,7 @@ const ReportIncident = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 

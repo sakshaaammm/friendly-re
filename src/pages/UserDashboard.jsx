@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -138,7 +137,7 @@ const UserDashboard = () => {
   const [redeemedVouchers, setRedeemedVouchers] = useState(mockRedeemedVouchers);
   const [userData, setUserData] = useState(user);
 
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = (status) => {
     switch (status) {
       case "pending":
         return <Badge variant="outline" className="bg-yellow-100 text-yellow-800">Pending</Badge>;
@@ -151,7 +150,7 @@ const UserDashboard = () => {
     }
   };
 
-  const redeemVoucher = (voucherId: string) => {
+  const redeemVoucher = (voucherId) => {
     const voucher = availableVouchers.find(v => v.id === voucherId);
     
     if (!voucher) {
