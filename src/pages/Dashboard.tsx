@@ -38,7 +38,7 @@ export default function Dashboard() {
   const filteredHeroes = heroes.filter((hero) => {
     const matchesSearch =
       hero.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (hero.alias?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
+      (hero.alias && hero.alias.toLowerCase().includes(searchTerm.toLowerCase()));
     
     const matchesNeighborhood = 
       neighborhood === "all" || hero.neighborhood === neighborhood;
